@@ -13,18 +13,66 @@ std::string convToLower(std::string src)
 
 /** Complete the code to convert a string containing a rawWord
     to a set of words based on the criteria given in the assignment **/
-std::set<std::string> parseStringToWords(string rawWords)
-{
+// std::set<std::string> parseStringToWords(string rawWords)
+// {
+//   //split at punctuation character 
+//   //make case insensitive 
+//   //words at least 2 characters long (ignore 1 character words)
+//   set<string> wordsreturn; 
+//   int index = 0; 
+//   int start = 0; //track start index 
 
-
-
-
-
-
-
-
-
-
+//   for (unsigned int i = 0; i < rawWords.length(); i++){
+//     char c = rawWords[i]; //track current letter
+//     if (!ispunct(c) && c != ' '){ // if character is not punct or space
+//       //move to next index -- track it
+//       index++;  //lengthh (more characters exist)
+//     }
+//     else {
+//       if (index >= 2){
+//         wordsreturn.insert(convToLower(rawWords.substr(start,index)));
+//       }
+//       //reset for the next word
+//       index = 0; 
+//       start = i + 1; //next start character
+//     }
+//   } 
+//   if (index >= 2){ // last word/edge case
+//     wordsreturn.insert(convToLower(rawWords.substr(start,index)));
+//   }
+//   return wordsreturn; 
+// }
+std::set<std::string> parseStringToWords(string rawWords){
+  set<string> toReturn; 
+  stringstream ss(rawWords);
+  string word = ""; 
+  while(ss>>word){
+    int index = -1; //punctuation trcker
+    for (int i =0; i < word.length(); i++){
+      if (ispunct(word[i])){
+        index = i;
+        break; 
+      }
+    }
+    if (index != -1){
+      //found punctuation 
+      string LHS = word.substr(0, index); 
+      string RHS = word.substr(index+1); 
+      if (LHS.length() >= 2){
+        toReturn.insert(convToLower(LHS)); 
+      }
+      if (RHS.length() >= 2){
+        toReturn.insert(convToLower(RHS)); 
+      }
+    }
+    else{
+      //check if full word 
+      if (word.length() >= 2){
+        toReturn.insert(convToLower(word)); 
+      }
+    }
+  }
+  return toReturn; 
 }
 
 /**************************************************
